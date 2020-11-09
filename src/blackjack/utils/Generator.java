@@ -4,7 +4,6 @@ package blackjack.utils;
 import nl.flotsam.xeger.Xeger; // https://code.google.com/archive/p/xeger/
 
 public class Generator {
-
     public String suit() {
       String regex = "Hearts|Clubs|Spades|Diamonds";
       String suit = createGenerator(regex).generate();
@@ -16,13 +15,13 @@ public class Generator {
     public String face() {
         String regex = "[2-9]|10|Ace|King|Queen|Jack";
         String face = createGenerator(regex).generate();
-        //  https://www.geeksforgeeks.org/assertions-in-java/
         assert face.matches(regex);
-
         return face;
     }
 
-    public Xeger createGenerator(String regex) {
+
+
+    public static Xeger createGenerator(String regex) {
         return new Xeger(regex);
     }
 

@@ -1,4 +1,4 @@
-package blackjack;
+package blackjack.materials;
 import blackjack.utils.Generator;
 
 import java.util.HashSet;

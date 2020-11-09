@@ -1,6 +1,6 @@
 package blackjack;
 
-import blackjack.utils.Generator;
+import blackjack.materials.Deck;
 
 public class Game {
     public void start() {
