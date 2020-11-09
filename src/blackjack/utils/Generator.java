@@ -15,15 +15,20 @@ public class Generator {
 
     public String face() {
         String regex = "[2-9]|10|Ace|King|Queen|Jack";
-        String suit = createGenerator(regex).generate();
+        String face = createGenerator(regex).generate();
         //  https://www.geeksforgeeks.org/assertions-in-java/
-        assert suit.matches(regex);
+        assert face.matches(regex);
 
-        return suit;
+        return face;
     }
 
     public Xeger createGenerator(String regex) {
         return new Xeger(regex);
+    }
+
+
+    public String nextCard() {
+        return face() + " of " + suit();
     }
 
 //    public void out() {System.out.println(output);}
