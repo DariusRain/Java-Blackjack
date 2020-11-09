@@ -26,6 +26,11 @@ public class Generator {
         return new Xeger(regex);
     }
 
+
+    public String nextCard() {
+        return face() + " of " + suit();
+    }
+
 //    public void out() {System.out.println(output);}
 
 }
