@@ -1,7 +1,7 @@
 package blackjack.players;
 
 import blackjack.utils.Console;
-import blackjack.utils.IdGenerator;
+import blackjack.utils.generators.IdGenerator;
 import blackjack.utils.Parser;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Player {
 
     public Player (String name) {
         this.name = name;
-        id = IdGenerator.id();
+        id = IdGenerator.id(name);
     }
 
     public void setBet(int bet) { this.bet = bet; }
@@ -35,7 +35,7 @@ public class Player {
             handleAce();
         }
 
-        if (reader.isFaceCard(card)) {
+        if (reader.isFace(card)) {
             value += 10;
         }
 

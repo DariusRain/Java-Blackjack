@@ -1,9 +1,10 @@
-package blackjack.utils;
+package blackjack.utils.generators;
 
  // https://stackoverflow.com/questions/22115/using-regex-to-generate-strings-rather-than-match-them
 import nl.flotsam.xeger.Xeger; // https://code.google.com/archive/p/xeger/
 
 public class Generator {
+
     public String suit() {
       String regex = "Hearts|Clubs|Spades|Diamonds";
       String suit = createGenerator(regex).generate();
@@ -18,7 +19,6 @@ public class Generator {
         assert face.matches(regex);
         return face;
     }
-
 
 
     public static Xeger createGenerator(String regex) {
