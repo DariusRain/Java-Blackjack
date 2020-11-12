@@ -3,11 +3,11 @@ package blackjack.materials;
 import blackjack.players.Dealer;
 import blackjack.players.Player;
 import blackjack.utils.generators.IdGenerator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Table {
 
-    private HashMap<String, Player> players = new HashMap<>();
+    private LinkedHashMap<String, Player> players = new LinkedHashMap<>();
     private Dealer dealer = new Dealer("House");
     private String[] order;
     private int onPlayer = 0;

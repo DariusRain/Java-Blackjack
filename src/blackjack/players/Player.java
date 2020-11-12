@@ -1,5 +1,7 @@
 package blackjack.players;
 
+import blackjack.materials.Hand;
+import blackjack.materials.Menu;
 import blackjack.utils.Console;
 import blackjack.utils.generators.IdGenerator;
 import blackjack.utils.Parser;
@@ -8,13 +10,14 @@ import java.util.ArrayList;
 
 public class Player {
 
-    protected int value = 0;
+    protected int cardSum = 0;
+    protected int chips = 0;
     public String name;
     public String id;
     public int winnings = 0;
     public int bet = 0;
-    protected boolean busted = false;
-    protected ArrayList<String> cards = new ArrayList<>();
+
+    protected Hand playerHand = new Hand();
 //    protected ArrayList<String> split = new ArrayList<>();
     protected Parser reader = new Parser();
     protected Console console = new Console();
@@ -24,61 +27,49 @@ public class Player {
         id = IdGenerator.id(name);
     }
 
-    public void setBet(int bet) { this.bet = bet; }
+    protected boolean bet(int chips) {
+        if (this.chips <= chips) {
+            this.bet = chips;
+            return true;
+        }
+        return false;
+    }
 
-    public void hitMe(String card) {
+    public void hit(String card) {
 
-        cards.add(card);
+        playerHand.addCard(card, false);
 
 
         if (reader.isAce(card)) {
-            handleAce();
+            cardSum += reader.handleAce();
         }
 
         if (reader.isFace(card)) {
-            value += 10;
+            cardSum += 10;
         }
 
         if(reader.isNumber(card)) {
-            value += Integer.parseInt(card.split(" ")[0]);
+            cardSum += Integer.parseInt(card.split(" ")[0]);
         }
 
 
     }
 
-    public boolean hasBusted() {
+    public boolean didBust() {
 
-        if (21 < value) {
-            busted = true;
+        if (21 < cardSum) {
             return true;
         }
 
         return false;
     }
 
-    public void display() {
-        for(String card: cards) {
-            System.out.println(card);
-        }
-    }
+//    public void display() { hand.display(); }
 
-    public void handleAce() {
-        while(true) {
 
-            String choice = console.input("Count Ace as 11(y) or 1(n)? ");
 
-            if(reader.compare("y\\i", choice)) {
-                value += 11;
-            }
+    public void newDeal() {cardSum = 0; playerHand.clear();}
 
-            if(reader.compare("n\\i", choice)) {
-                value += 1;
-            }
-
-        }
-    }
-
-    public void newDeal() {value = 0; cards = new ArrayList<>();}
-
+    public boolean canPlay() {return chips > 0;}
 
 }

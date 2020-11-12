@@ -1,6 +1,9 @@
 package blackjack.utils;
+import blackjack.materials.Menu;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 public class Parser {
 
     private String regex = "";
@@ -19,6 +22,6 @@ public class Parser {
 
     public boolean isNumber(String toParse) { return compare(toParse.split(" ")[0], "^[2-9]|10$"); }
 
-
+    public int handleAce() { return Menu.choice("Count Ace as 11?") ? 11 : 1; }
 
 }
