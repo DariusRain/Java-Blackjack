@@ -1,4 +1,7 @@
-package blackjack.materials;
+package blackjack.players;
+
+import blackjack.utils.Console;
+import blackjack.utils.Parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +10,11 @@ import java.util.Map;
 
 public class Hand {
     HashMap<String, ArrayList<String>> cards = new HashMap<>();
-    public boolean didSplit = false;
+    protected final static int BLACKJACK = 21;
+    protected Parser reader = new Parser();
+    protected Console console = new Console();
+    protected boolean didSplit = false;
+    protected int[] cardSum = {0, 0};
 
     public Hand() {
         cards.put("normal", new ArrayList<>());
@@ -20,6 +27,33 @@ public class Hand {
     public void clear() {
         cards.get("normal").clear();
         cards.get("split").clear();
+    }
+
+    public void hit(String card, boolean isSplit) {
+
+        addCard(card, isSplit);
+
+
+        if (reader.isAce(card)) {
+            cardSum[isSplit ? 1: 0] += reader.handleAce();
+        }
+
+        if (reader.isFace(card)) {
+            cardSum[isSplit ? 1 : 0] += 10;
+        }
+
+        if(reader.isNumber(card)) {
+            cardSum[isSplit ? 1 : 0] += Integer.parseInt(card.split(" ")[0]);
+        }
+
+
+    }
+
+    public boolean didBust() {
+        if (BLACKJACK < cardSum[0] || (didSplit && BLACKJACK < cardSum[1])) {
+            return true;
+        }
+        return false;
     }
 
 //    public void display() {

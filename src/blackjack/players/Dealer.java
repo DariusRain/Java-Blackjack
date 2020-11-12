@@ -25,7 +25,9 @@ public class Dealer extends Player {
 //    }
 
     // Checks if dealer has hit limit
-    public boolean limit() { return 17 < cardSum; }
+    public boolean limit() {
+        return 17 < cardSum[0];
+    }
 
     // Checks if deck is on last card then reshuffles the deck.
     public void checkCardCount() {
@@ -53,14 +55,14 @@ public class Dealer extends Player {
                 Player onPlayer = (Player) obj.getValue();
 
                 // Only classes inside the player package can utilize protected field values.
-                onPlayer.playerHand.addCard(deck.draw(cardCount++), false);
+                addCard(deck.draw(cardCount++), false);
             }
 
             // I know this function call is repetitive, will look into an alternative afterwards.
             checkCardCount();
 
             // This is the the Dealer's hand
-            playerHand.addCard(deck.draw(cardCount++), false);
+            this.addCard(deck.draw(cardCount++), false);
 
         }
     }
@@ -77,7 +79,7 @@ public class Dealer extends Player {
                 Player onPlayer = (Player) obj.getValue();
 
                 while(Menu.choice("Hit")) {
-                    onPlayer.hit(deck.draw(cardCount++));
+                    onPlayer.hit(deck.draw(cardCount++), false);
                     onPlayer.didBust();
                 }
 
@@ -85,7 +87,7 @@ public class Dealer extends Player {
             // Else must be on dealer
             else {
                 while (!limit()) {
-                    hit(deck.draw(cardCount++));
+                    hit(deck.draw(cardCount++), false);
                     didBust();
                 }
                 break;

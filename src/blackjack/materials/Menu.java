@@ -12,7 +12,7 @@ public class Menu {
 
     public static void displayPlayers(ArrayList<Player> players) {
         for (Player player : players) {
-            console.log("Player: " + player.name + "Winnings: " + player.winnings);
+            console.log("Player: " + player.name + "Winnings: " + player.getWinnings());
         }
     }
 
