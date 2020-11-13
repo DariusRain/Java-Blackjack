@@ -5,7 +5,7 @@ import nl.flotsam.xeger.Xeger; // https://code.google.com/archive/p/xeger/
 
 public class Generator {
 
-    public String suit() {
+    public static String suit() {
       String regex = "Hearts|Clubs|Spades|Diamonds";
       String suit = createGenerator(regex).generate();
       //  https://www.geeksforgeeks.org/assertions-in-java/
@@ -13,7 +13,7 @@ public class Generator {
       return suit;
     }
 
-    public String face() {
+    public static String face() {
         String regex = "[2-9]|10|Ace|King|Queen|Jack";
         String face = createGenerator(regex).generate();
         assert face.matches(regex);
@@ -26,7 +26,7 @@ public class Generator {
     }
 
 
-    public String nextCard() {
+    public static String nextCard() {
         return face() + " of " + suit();
     }
 

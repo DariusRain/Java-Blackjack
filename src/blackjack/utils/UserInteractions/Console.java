@@ -1,46 +1,46 @@
-package blackjack.utils;
+package blackjack.utils.UserInteractions;
 import java.util.Scanner;
 
 // In charge of inputting & outputting to the user.
 public class Console {
 
     // Every instantiated class will use this variable for input
-    private Scanner input = new Scanner(System.in);
+    private static Scanner input = new Scanner(System.in);
 
     // Every instantiated class will use this variable for output
     // --> output will keep concatenating previous elements with hyphens
-    public String output;
+    public static String output;
 
     // Clears the output
-    public void clear() {
+    public static void clear() {
         output = "";
     }
 
-    public void clearScreen() {
+    public static void clearScreen() {
         System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         System.out.flush();
     }
 
-    public void out(String s) {
+    public static void out(String s) {
         output += s;
     }
 
-    public void log(String s) {
+    public static void log(String s) {
         System.out.println(s);
         output += s + "-";
     }
 
-    public void logf(String s) {
+    public static void logf(String s) {
         System.out.print(s);
         output += s + "-";
     }
 
-    public String input(String message) {
+    public static String input(String message) {
         System.out.print(message);
         return input.nextLine();
     }
 
-    public String input() {
+    public static String input() {
         return input.nextLine();
     }
 

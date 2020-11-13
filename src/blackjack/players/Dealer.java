@@ -1,7 +1,8 @@
 package blackjack.players;
 
 import blackjack.materials.Deck;
-import blackjack.materials.Menu;
+import blackjack.utils.UserInteractions.Menu;
+import blackjack.utils.UserInteractions.Console;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,8 +15,9 @@ public class Dealer extends Player {
 
     public Dealer(String name) {
         super(name);
-        deck.shuffle();
+        deck.init();
         deck.setDeck();
+        deck.shuffle();
     }
 
 //    @Override
@@ -39,44 +41,55 @@ public class Dealer extends Player {
     }
 
     // loops through O(size * 2) and deals the initial deal before game starts.
-    public void deal(LinkedHashMap<String, Class<Player>> players) {
-        // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
-        int dealCount = 1;
-        while (dealCount++ < 2 ) {
-
+    public void deal(LinkedHashMap<String, Player> players) {
+        // https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+        int dealCount = 0;
+        while ( dealCount++ <= 2 ) {
             // Class made for iterating collections,  similar to Scanner.nextLine()
             Iterator iterator = players.entrySet().iterator();
-
             while (iterator.hasNext()) {
                 checkCardCount();
-
                 // This returns the key and value in object.
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
-
-                // Only classes inside the player package can utilize protected field values.
-                addCard(deck.draw(cardCount++), false);
+                onPlayer.display();
+                if (dealCount == 1) {
+                    int numberOfChips = Menu.bet(onPlayer.chips);
+                    onPlayer.bet(numberOfChips);
+                }
+                String playerCard = deck.draw(cardCount++);
+                onPlayer.addCard(playerCard, false);
+                onPlayer.hit(playerCard, false);
+//                iterator.remove();
             }
+            String dealerCard = deck.draw(cardCount++);
+            // This is the the Dealer's hand
+            addCard(dealerCard, false);
 
+            // Calling hit to add to total
+            hit(dealerCard, false);
             // I know this function call is repetitive, will look into an alternative afterwards.
             checkCardCount();
 
-            // This is the the Dealer's hand
-            this.addCard(deck.draw(cardCount++), false);
 
         }
     }
 
     // loops through O((playersSize + playerHits) + dealerHits) times and asks a player for a hit until player says no.
     public void dealHits(LinkedHashMap<String, Player> players) {
+
         // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
         Iterator iterator = players.entrySet().iterator();
 
         while(true) {
+
             // If there is another player
             if(iterator.hasNext()) {
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
+
+                Console.log(onPlayer.name);
+                onPlayer.display();
 
                 while(Menu.choice("Hit")) {
                     onPlayer.hit(deck.draw(cardCount++), false);
@@ -84,6 +97,7 @@ public class Dealer extends Player {
                 }
 
             }
+
             // Else must be on dealer
             else {
                 while (!limit()) {

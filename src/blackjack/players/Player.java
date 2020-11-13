@@ -1,8 +1,6 @@
 package blackjack.players;
-
-import blackjack.utils.Console;
+import blackjack.utils.UserInteractions.Console;
 import blackjack.utils.generators.IdGenerator;
-import blackjack.utils.Parser;
 
 public class Player extends Hand {
 
@@ -21,23 +19,29 @@ public class Player extends Hand {
     }
 
     protected boolean bet(int chips) {
+
         if (this.chips <= chips) {
             bet = chips;
             return true;
         }
+
         return false;
+
     }
 
-
-//    public void display() { hand.display(); }
-
-
-
-    public void clear() {bet=0;}
+    public void display() {
+        Console.clearScreen();
+        Console.log("( " + name + " ) " +"Chips: " + chips + " Winnings: " + winnings());
+        displayHand();
+    }
 
     public boolean canPlay() {return chips > 0;}
 
     public int winnings() {return chips - chipsBought; }
+
+    public void clear() {bet=0;}
+
+    public void buyIn(int chips) { this.chips += chips; }
 
     public void split() { didSplit = true;}
 

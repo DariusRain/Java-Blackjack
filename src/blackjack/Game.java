@@ -1,14 +1,18 @@
 package blackjack;
 import blackjack.materials.*;
+import blackjack.players.Player;
+import blackjack.utils.UserInteractions.Menu;
 
 public class Game {
     private Table gameTable = new Table();
+    private boolean initalGame = true;
 //    private Menu gameMenu = new Menu();
-    private int onMenu = 0;
+//    private int onMenu = 0;
 
-    public void next() {
-
-    }
+//    public void next() {
+//        while()
+//        gameTable.getDealer();
+//    }
 
     // Menus
     // 1: Ask for player(s) (Table.addPlayer(name))
@@ -17,24 +21,23 @@ public class Game {
 
 
     public void start() {
-        while(onMenu < 3) {
+        // If table is empty or initial game since empty() would be true
+        while((!gameTable.empty()) || initalGame) {
 
-            if(onMenu == 1) {
+            initalGame = false;
 
-            }
+            gameTable.newRound();
 
-            if (onMenu == 2) {
+            gameTable.getDealer().deal(gameTable.getPlayers());
 
-            }
-
-
+            gameTable.getDealer().dealHits(gameTable.getPlayers());
 
         }
     }
 
-    public void testDeck() {
-        Deck deck = new Deck();
-        deck.shuffle();
-        deck.display();
-    }
+//    public void testDeck() {
+//        Deck deck = new Deck();
+//        deck.shuffle();
+//        deck.display();
+//    }
 }
