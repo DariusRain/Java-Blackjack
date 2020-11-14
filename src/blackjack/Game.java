@@ -1,40 +1,39 @@
 package blackjack;
-import blackjack.materials.*;
+import blackjack.materials.Table;
+import blackjack.utils.UserInteractions.Menu;
+
 
 public class Game {
+
     private Table gameTable = new Table();
-//    private Menu gameMenu = new Menu();
-    private int onMenu = 0;
+    private boolean initialGame = true;
 
-    public void next() {
-
-    }
-
-    // Menus
-    // 1: Ask for player(s) (Table.addPlayer(name))
-    // 2: Ask to hit (for player in Table.players)
-    // 3: Game is over hen players leave the table.
-
-
+   /***
+    *
+    *       Runs a loop that calls methods from the table class representing each
+    *   step of the process in a Blackjack game, where Table holds the dealer
+    *   and the players.
+    *
+    * @see blackjack.materials.Table
+    * @see blackjack.players.Dealer
+    * @return void
+    * */
     public void start() {
-        while(onMenu < 3) {
+        Menu.blackJack();
+        // If table is empty or initial game since empty() would be true
+        while((!gameTable.empty()) || initialGame) {
 
-            if(onMenu == 1) {
+            initialGame = false;
 
-            }
+            gameTable.newRound();
 
-            if (onMenu == 2) {
+            gameTable.getDealer().dealRound(gameTable.getPlayers());
 
-            }
+            gameTable.getDealer().dealHits(gameTable.getPlayers());
 
-
-
+            gameTable.getDealer().dispense(gameTable.getPlayers());
         }
     }
 
-    public void testDeck() {
-        Deck deck = new Deck();
-        deck.shuffle();
-        deck.display();
-    }
+
 }

@@ -1,49 +1,29 @@
 package blackjack.materials;
-import blackjack.utils.generators.Generator;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
+import blackjack.players.Hand;
+import blackjack.utils.UserInteractions.Console;
+import blackjack.utils.generators.CardGenerator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Deck {
 
+    //  A container to hold unique values pf cards, see "draw()" for where this
     private Set<String> cards = new HashSet<>();
-    private List<String> deck = new ArrayList<>();
-    private Generator generator = new Generator();
+    private int lastSize = 0;
 
-    public void shuffle() {
+    public String draw() {
+        lastSize = cards.size() * 1;
+        String card = CardGenerator.nextCard();
+        cards.add(card);
+        if (lastSize == cards.size()) { return draw(); }
+        return card;
+    }
+
+
+    public void reset() {
         cards.clear();
-        System.out.println("Shuffling deck...");
-
-        while(cards.size() < 52) {
-            cards.add(generator.nextCard());
-        }
-
+        lastSize = 0;
     }
-
-    public void display() {
-
-        int i = 1;
-
-        for(String card: cards) {
-            System.out.println(i++ + ": " + card);
-        }
-
-    }
-
-    public String draw(int cardCount) { return deck.get(cardCount); }
-
-
-    public void setDeck() {
-        if (deck.size() > 0) {
-            deck.clear();
-        }
-        deck = cards.stream().collect(Collectors.toList());
-    }
-
-    public List<String> getCards() { return deck; }
 
 }
 
