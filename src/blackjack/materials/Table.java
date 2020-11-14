@@ -22,9 +22,10 @@ public class Table {
     public void newRound() {
         onPlayer = 0;
         // Take in new players if table is not full and Yes is answered.
-        while (Menu.choice("New player?") && !full()) {
+        Menu.newRound();
+        while (Menu.choice("New player") && !full()) {
             int numberOfChips = Menu.askForInt("Buy in: $");
-            String playerName = Menu.askForString("Player name:");
+            String playerName = Menu.askForString("Player name: ");
             Player user = new Player(playerName);
             user.buyIn(numberOfChips);
             newPlayer(user);
@@ -47,7 +48,5 @@ public class Table {
     public boolean empty() { return players.size() == 0; }
 
     public boolean full() { return MAX < players.size(); }
-
-
 
 }

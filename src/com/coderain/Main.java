@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        Game game = new Game();
+        Game blackjack = new Game();
 //        game.testDeck();
-        game.start();
+        blackjack.start();
     }
 }

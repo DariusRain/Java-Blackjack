@@ -1,11 +1,12 @@
 package blackjack.materials;
-import blackjack.utils.generators.Generator;
-
+import blackjack.utils.UserInteractions.Console;
+import blackjack.utils.generators.CardGenerator;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Deck {
 
+    //  A container to hold unique values pf cards, see "init()" for where this
     private Set<String> cards = new HashSet<>();
     private List<String> deck = new ArrayList<>();
 
@@ -17,10 +18,16 @@ public class Deck {
     }
 
     public void init() {
+        Console.log("Initializing game...");
         cards.clear();
         while(cards.size() < 52) {
-            cards.add(Generator.nextCard());
+            int last = cards.size();
+            cards.add(CardGenerator.nextCard());
+            if(last < cards.size()) {
+                Console.logf(CardGenerator.suit() + "-");
+            }
         }
+        Console.log(CardGenerator.suit());
 
     }
 

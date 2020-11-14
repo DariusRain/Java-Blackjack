@@ -17,7 +17,7 @@ public class Console {
     }
 
     public static void clearScreen() {
-        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         System.out.flush();
     }
 

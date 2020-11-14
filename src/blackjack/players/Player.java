@@ -35,16 +35,23 @@ public class Player extends Hand {
         displayHand();
     }
 
-    public boolean canPlay() {return chips > 0;}
+    public boolean canPlay() { return chips > 0; }
 
-    public int winnings() {return chips - chipsBought; }
+    public int winnings() { return (chipsBought - chips); }
 
-    public void clear() {bet=0;}
+    public void clear() {
+        busted = false;
+        bet=0;
+        this.clearHand();
+    }
 
     public void buyIn(int chips) { this.chips += chips; }
 
     public void split() { didSplit = true;}
 
+    public void lost() { chips -= bet; }
+
+    public void win() { chips += bet; }
 
 }
 

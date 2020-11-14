@@ -1,5 +1,6 @@
 package blackjack.utils.UserInteractions;
 
+import blackjack.players.Dealer;
 import blackjack.players.Player;
 
 import blackjack.utils.UserInteractions.*;
@@ -10,11 +11,13 @@ public class Menu {
 
     // Returns false if Y or y is not.
     public static boolean choice(String message) {
-        return Parser.compare(Console.input(message + " (Y/N)").toUpperCase().strip().trim(), "^Y$");
+        return Parser.compare(Console.input(message + " (Y/N): ").toUpperCase().strip().trim(), "^Y$");
     }
 
     // Returns an invalid message with the invalid input
-    public static void invalid(String invalidInput) {Console.log("Invalid Input -> " + "\"" + invalidInput + "\"");}
+    public static void invalid(String invalidInput) {
+        Console.log("Invalid Input -> " + "\"" + invalidInput + "\"");
+    }
 
     // askFor methods Returns any extpected return value user types in, removes whitespace
     public static String askForString(String message) {
@@ -32,7 +35,7 @@ public class Menu {
 
     public static int askForInt(String message) {
         String response = Console.input(message);
-        if(Parser.compare(response, "^[0-9]+$")) {
+        if (Parser.compare(response, "^[0-9]+$")) {
             return Integer.parseInt(response);
         }
         invalid(response);
@@ -41,15 +44,42 @@ public class Menu {
     }
 
     public static int bet(int playerChips) {
-        int bet = askForInt("Bet");
+        int bet = askForInt("Bet: ");
         if (bet <= playerChips) {
             return bet;
         }
+        Console.log("Bet -> ( " + bet + " ) exceeds players amount -> ( " + playerChips + " )!");
         return bet(playerChips);
     }
 
 
-    public static void displayPlayer(Player user) { Console.log("Player: " + user.name + "Winnings: " + user.winnings()); }
+    public static void displayPlayer(Player user) {
+        Console.log("Player: " + user.name + "Winnings: " + user.winnings());
+    }
+
+    public static void winner(String winnerName, String loserName, int winnerSum, int loserSum) {
+        if (21 < loserSum) {
+            Console.log(winnerName + " beat -> " + loserName + ", " + loserName + "busted");
+        } else {
+            Console.log(winnerName + " beat -> " + loserName + " with " + winnerSum + " against " + loserSum);
+        }
+    }
+
+    public static void tie(String name1, String name2, int sum1, int sum2) {
+        if (21 < sum1 && 21 < sum2) {
+            Console.log(name1 + " tied -> " + name2 + ", both have busted");
+        } else {
+            Console.log(name1 + " tied -> " + name1 + " with " + sum1 + " against " + sum2);
+        }
+    }
+
+    public static void blackJack() {
+        Console.log("Welcome to Java-Blackjack!");
+    }
+
+    public static void newRound() {
+        Console.log("New round starting, new players may join!");
+    }
 
     public static void displayPlayers(ArrayList<Player> players) {
         for (Player user : players) {
@@ -57,11 +87,4 @@ public class Menu {
         }
     }
 
-
-
-    // Asks each player for a hit until a false boolean is returned by Menu.choice
-    // Runs loop O(lengthOfMap - 1) times.
-
 }
-//    Returns false by default.
-//    public boolean hitMe() {return reader.compare(Console.input("Hit Y or any key?"), "^Y$"); }

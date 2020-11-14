@@ -3,33 +3,29 @@ package blackjack.utils.generators;
  // https://stackoverflow.com/questions/22115/using-regex-to-generate-strings-rather-than-match-them
 import nl.flotsam.xeger.Xeger; // https://code.google.com/archive/p/xeger/
 
+import javax.security.auth.callback.NameCallback;
+
 public class Generator {
 
-    public static String suit() {
-      String regex = "Hearts|Clubs|Spades|Diamonds";
-      String suit = createGenerator(regex).generate();
-      //  https://www.geeksforgeeks.org/assertions-in-java/
-      assert suit.matches(regex);
-      return suit;
+    /**
+          * Generates any string matching the argument using Google's Xeger library.
+          * @param regex -> Could be any regex pattern (i.e [0-9], [A-Z], anyword, thisword|thatword|orthisword, )
+          * @return String -> Any string that matches
+     */
+    public static String generate(String regex) {
+        String response = createGenerator(regex).generate();
+        assert response.matches(regex);
+        return response;
     }
 
-    public static String face() {
-        String regex = "[2-9]|10|Ace|King|Queen|Jack";
-        String face = createGenerator(regex).generate();
-        assert face.matches(regex);
-        return face;
-    }
-
-
+    /**
+          * Instantiates a new Xeger class.
+          * @param regex -> To be passed as argument in Xeger's constructor.
+          * @return Xeger -> Will be used in other methods for its "generate()" method.
+     * */
     public static Xeger createGenerator(String regex) {
         return new Xeger(regex);
     }
 
-
-    public static String nextCard() {
-        return face() + " of " + suit();
-    }
-
-//    public void out() {System.out.println(output);}
-
+//
 }
