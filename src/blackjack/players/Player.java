@@ -37,7 +37,7 @@ public class Player extends Hand {
 
     public boolean canPlay() { return chips > 0; }
 
-    public int winnings() { return (chipsBought - chips); }
+    public int winnings() { return chips - chipsBought; }
 
     public void clear() {
         busted = false;
@@ -45,13 +45,13 @@ public class Player extends Hand {
         this.clearHand();
     }
 
-    public void buyIn(int chips) { this.chips += chips; }
+    protected void buyIn(int chips) { this.chips += chips; }
 
     public void split() { didSplit = true;}
 
-    public void lost() { chips -= bet; }
+    protected void lost() { chips -= bet; }
 
-    public void win() { chips += bet; }
+    protected void win() { chips += bet; }
 
 }
 

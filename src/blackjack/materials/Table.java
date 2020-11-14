@@ -24,10 +24,9 @@ public class Table {
         // Take in new players if table is not full and Yes is answered.
         Menu.newRound();
         while (Menu.choice("New player") && !full()) {
-            int numberOfChips = Menu.askForInt("Buy in: $");
             String playerName = Menu.askForString("Player name: ");
             Player user = new Player(playerName);
-            user.buyIn(numberOfChips);
+            dealer.getBuyIn(user);
             newPlayer(user);
         }
 

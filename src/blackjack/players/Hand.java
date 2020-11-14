@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Hand {
+
     protected HashMap<String, ArrayList<String>> cards = new HashMap<>();
     protected final static int BLACKJACK = 21;
     protected final static String SPLIT_HAND = "split";
@@ -60,7 +61,7 @@ public class Hand {
 //    }
 
     public boolean didBust() {
-        if (BLACKJACK < normalCardSum|| (didSplit && BLACKJACK < splitCardSum)) {
+        if (BLACKJACK < normalCardSum || (didSplit && BLACKJACK < splitCardSum)) {
             Console.log("Busted!");
             busted = true;
             return true;
@@ -88,7 +89,7 @@ public class Hand {
 
 
 
-    public void scan() {
+    public void countCards() {
         normalCardSum = 0;
         splitCardSum = 0;
         cards.forEach((key, value) -> {
@@ -102,21 +103,7 @@ public class Hand {
             }
         });
     }
-//        while(it.hasNext()) {
-//            Map.Entry cardList = (Map.Entry) it.next();
-//            Iterator it2 = cardList.ente
-//            for(String card: (ArrayList<String>)cardList) {
-//                if(handCount == 1 && didSplit) {
-//                    hit(card, true);
-//                } else {
-//                    hit(card, false);
-//                }
-//            }
-//            handCount += 1;
-//        }
-
 
     public void split() { didSplit = true; }
 
-//    public void
 }

@@ -11,38 +11,27 @@ import java.util.Map;
 public class Dealer extends Player {
 
     private Deck deck = new Deck();
-    private int cardCount = 0;
     private static final int RULE = 17;
 
     public Dealer(String name) {
         super(name);
-        deck.init();
-        deck.setDeck();
-        deck.shuffle();
     }
 
-//    @Override
-//    public void hit(String card) {
-//        checkCardCount();
-//        this.hit(card);
-//    }
 
     // Checks if dealer has hit limit
     public boolean limit() {
         return RULE < normalCardSum || (didSplit && RULE < splitCardSum);
     }
 
-    // Checks if deck is on last card then reshuffles the deck.
-    public void checkCardCount() {
-        if(deck.getCards().size() <= cardCount) {
-            cardCount = 0;
-            deck.shuffle();
-            deck.setDeck();
-        }
+
+    public void getBuyIn(Player user) {
+        int numberOfChips = Menu.askForInt("Buy in: $");
+        user.buyIn(numberOfChips);
     }
 
+
     // loops through O(size * 2) and deals the initial deal before game starts.
-    public void deal(LinkedHashMap<String, Player> players) {
+    public void dealRound(LinkedHashMap<String, Player> players) {
         // https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
         int dealCount = 0;
         while ( dealCount++ < 2 ) {
@@ -51,7 +40,6 @@ public class Dealer extends Player {
             Console.log("Deal count: " + dealCount);
 
             while (iterator.hasNext()) {
-                checkCardCount();
                 // This returns the key and value in object.
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
@@ -62,19 +50,12 @@ public class Dealer extends Player {
                     onPlayer.bet(numberOfChips);
                 }
 
-                String playerCard = deck.draw(cardCount++);
-                onPlayer.addCard(playerCard, false);
-//                onPlayer.hit(playerCard, false);
-//                iterator.remove();
+                onPlayer.addCard(deck.draw(), false);
+
             }
 
-            String dealerCard = deck.draw(cardCount++);
             // This is the the Dealer's hand
-            addCard(dealerCard, false);
-            // Calling hit to add to total
-//            hit(dealerCard, false);
-            // I know this function call is repetitive, will look into an alternative afterwards.
-            checkCardCount();
+            addCard(deck.draw(), false);
 
 
         }
@@ -93,11 +74,11 @@ public class Dealer extends Player {
 
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
-                onPlayer.scan();
+                onPlayer.countCards();
                 onPlayer.display();
                 while(Menu.choice("Hit")) {
-                    onPlayer.scan();
-                    onPlayer.hit(deck.draw(cardCount++), false);
+                    onPlayer.countCards();
+                    onPlayer.hit(deck.draw(), false);
                     onPlayer.display();
                     if(onPlayer.didBust()) {
                         break;
@@ -108,12 +89,12 @@ public class Dealer extends Player {
 
             // Else must be on dealer
             else {
-                display();
+                this.display();
                 while (true) {
-                    hit(deck.draw(cardCount++), false);
-                    display();
+                    this.hit(deck.draw(), false);
+                    this.display();
                     if(limit()) {
-                        didBust();
+                        this.didBust();
                         break;
                     }
                 }
