@@ -6,6 +6,7 @@ import nl.flotsam.xeger.Xeger; // https://code.google.com/archive/p/xeger/
 import javax.security.auth.callback.NameCallback;
 
 public class Generator {
+
     /**
           * Instantiates a new Xeger class with passed in regex pattern as a argument.
           * @param regex -> To be passed as argument in Xeger's constructor.
