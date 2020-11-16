@@ -11,7 +11,7 @@ public class IdGenerator extends Generator {
 
     public static String id(String playerName) {
         int inital = idList.size() * 1;
-        String regex = "[0-9][a-z][A-Z]{9}";
+        String regex = "[0-9]|[a-z]|[A-Z]{4}";
         String id = createGenerator(regex).generate();
         assert id.matches(regex);
 

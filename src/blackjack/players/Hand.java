@@ -14,12 +14,12 @@ public interface Hand {
 
 
 
-    void clearHand();
+    void clear();
 
 
     void hit(String card, boolean isSplit);
     boolean didBust();
-    void displayHand();
+    void display();
     void countCards();
     void split();
 

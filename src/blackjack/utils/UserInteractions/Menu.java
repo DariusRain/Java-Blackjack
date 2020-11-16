@@ -22,33 +22,42 @@ public class Menu {
     // askFor methods Returns any extpected return value user types in, removes whitespace
     public static String askForString(String message) {
 
-        String response = Console.input(message).replaceAll("\\W+|\\d+", "").strip().trim();
-        if (response.length() > 0) {
-            return response;
+        String response = Console.input(message);
+        String parsedResponse = response.replaceAll("\\W+|\\d+", "").strip().trim();
+
+        if (parsedResponse.length() > 0) {
+            return parsedResponse;
         }
 
         invalid(response);
-
         return askForString(message);
 
     }
 
     public static int askForInt(String message) {
-        String response = Console.input(message).replaceAll("\\D+", "");
+
+        String response = Console.input(message);
+        String parsedResponse = response.replaceAll("\\D+", "");
+
         if (Parser.compare(response, "^[0-9]+$")) {
             return Integer.parseInt(response);
         }
-        invalid(response);
 
+        invalid(response);
         return askForInt(message);
+
     }
 
     public static int bet(int playerChips) {
+
         int bet = askForInt("Bet: ");
+
         if (bet <= playerChips) {
             return bet;
         }
+
         Console.log("Bet -> ( " + bet + " ) exceeds players amount -> ( " + playerChips + " )!");
+
         return bet(playerChips);
     }
 
@@ -71,10 +80,6 @@ public class Menu {
         } else if (sum1 == sum2){
             Console.log(name1 + " tied -> " + name1 + " with " + sum1 + " against " + sum2);
         }
-    }
-
-    public static void result(String dealerName, int dealerCardSum, String playerName, int playerCardSum) {
-
     }
 
     public static void welcome() {

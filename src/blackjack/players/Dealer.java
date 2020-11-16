@@ -1,6 +1,8 @@
 package blackjack.players;
 
+import blackjack.BlackJack;
 import blackjack.materials.Deck;
+import blackjack.utils.UserInteractions.BlackJackConsole;
 import blackjack.utils.UserInteractions.Menu;
 import blackjack.utils.UserInteractions.Console;
 import blackjack.utils.UserInteractions.Parser;
@@ -33,7 +35,7 @@ public class Dealer extends Player implements Hand {
     * @return ...
     */
     public boolean limit() {
-        return RULE < normalCardSum || (didSplit && RULE < splitCardSum);
+        return RULE <= normalCardSum || (didSplit && RULE <= splitCardSum);
     }
 
     /**
@@ -47,15 +49,19 @@ public class Dealer extends Player implements Hand {
     public void getBuyIn(Player user) {
         int numberOfChips = Menu.askForInt("Buy in: $");
         user.buyIn(numberOfChips);
+        BlackJackConsole.log("Your ID: " + user.id);
     }
+
 
 
     /**
     * Loops through a linked hashmap of {@code Player} classes expected to be passed as
-    * an argument.  During each iteration of the first loop a nested loop deals to players and after that loop stops
+    * an argument.  Before dealing the first card each player will be prompted for their
+    * bet then the dealing continues on.
+    * NOTE: Dealer also deals to itself
     * @param players -> {@code LinkedHashMap<String,Player>}
     * @see Player
-     * @see LinkedHashMap
+    * @see LinkedHashMap
     * @return Nothing
     */
     // loops through O(size * 2) and deals the initial deal before game starts.
@@ -122,34 +128,38 @@ public class Dealer extends Player implements Hand {
         // Else must be on dealer
         this.display();
         while (true) {
-            this.hit(deck.draw(), false);
-            this.display();
             if (limit()) {
                 this.didBust();
                 break;
             }
+            this.hit(deck.draw(), false);
+            this.display();
         }
     }
 
 
 
     public void dispense(LinkedHashMap<String, Player> players) {
+
             Iterator iterator = players.entrySet().iterator();
+
             while (iterator.hasNext()) {
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
 
 
 //                Menu.result(this.name, this.normalCardSum, onPlayer.name, onPlayer.normalCardSum);
+
                 // If dealer won
-                if ( onPlayer.busted && !this.busted || onPlayer.normalCardSum < this.normalCardSum) {
+                if ( onPlayer.busted == true && this.busted == false || onPlayer.normalCardSum < this.normalCardSum) {
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                     onPlayer.lost(this.blackjack);
                     Console.log("Dealer won: " + onPlayer.chips + "");
 
                 }
+
                 // if player won
-                if (this.busted && !onPlayer.busted || this.normalCardSum < onPlayer.normalCardSum ) {
+                if (this.busted == true && onPlayer.busted == false || this.normalCardSum < onPlayer.normalCardSum ) {
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
                     Console.log(onPlayer.name + "won" + onPlayer.chips + "");
@@ -164,8 +174,10 @@ public class Dealer extends Player implements Hand {
                 onPlayer.clear();
 
             }
+
             // Like above but for dealer.
             this.clear();
-        }
+
+    }
 
 }
