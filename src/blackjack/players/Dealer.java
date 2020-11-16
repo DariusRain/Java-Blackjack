@@ -162,7 +162,7 @@ public class Dealer extends Player implements Hand {
                 if (this.busted == true && onPlayer.busted == false || this.normalCardSum < onPlayer.normalCardSum ) {
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
-                    Console.log(onPlayer.name + "won" + onPlayer.chips + "");
+                    Console.log(onPlayer.name + " won: " + onPlayer.chips + "");
                 }
 
                 // if tie

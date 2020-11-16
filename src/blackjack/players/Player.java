@@ -43,9 +43,8 @@ public class Player implements Hand {
     * @return boolean -> lets calling class know if the bet is valid
     */
     protected boolean bet(int chips) {
-
-        if (this.chips <= chips) {
-            bet = chips;
+        if (chips <= this.chips) {
+            this.bet = chips;
             return true;
         }
 
@@ -97,9 +96,18 @@ public class Player implements Hand {
 
     public void split() { didSplit = true;}
 
-    public void lost(boolean blackjack) { this.chips = blackjack ? chips - bet * 4 : chips - bet; }
+    public void lost(boolean blackjack) {
+        Console.log("Bet was " + this.bet);
+        int chipsLost = blackjack ? chips - bet * 4 : chips - bet;
+        Console.log("( " + this.name + this.id + " ) lost " + chipsLost + " chips -> ( " + this.chips + " - " + chipsLost + " )");
+        this.chips = chipsLost;
+    }
 
-    public void win() { this.chips = blackjack ? chips + bet * 4 : chips + bet; }
+    public void win() {
+        Console.log("Bet was " + this.bet);
+        int chipsWon = blackjack ? chips + bet * 4 : chips + bet;
+        Console.log("( " + this.name + this.id + " ) lost " + chipsWon + " chips -> ( " + this.chips + " + " + chipsWon + " )");
+        this.chips = chipsWon; }
 
     public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
 
