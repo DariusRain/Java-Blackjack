@@ -1,4 +1,6 @@
 package blackjack.players;
+import blackjack.BlackJack;
+import blackjack.utils.UserInteractions.BlackJackConsole;
 import blackjack.utils.UserInteractions.Console;
 import blackjack.utils.UserInteractions.Parser;
 import blackjack.utils.generators.IdGenerator;
@@ -18,7 +20,7 @@ public class Player implements Hand {
     protected int normalCardSum = 0;
     protected int splitCardSum = 0;
     protected int chips = 0;
-    protected int chipsBought = 0;
+    protected int chipsPurchased = 0;
     public String name;
     public String id;
     public int bet = 0;
@@ -51,25 +53,47 @@ public class Player implements Hand {
 
     }
 
+    /**
+    * Prints player info to the console.
+    * @see BlackJackConsole#displayPlayer(String, String, int, int, int, int, boolean, HashMap)
+    * @return Nothing
+    */
+    public void display() { BlackJackConsole.displayPlayer(name, id, chips, winnings(), normalCardSum, splitCardSum, didSplit, cards); }
 
-    public void display() {
-        Console.clearScreen();
-        Console.log("( " + name + " ) " +"Chips: " + chips + " Winnings: " + winnings());
-        displayHand();
-    }
 
     public boolean canPlay() { return chips > 0; }
 
-    public int winnings() { return chips - chipsBought; }
+    /**
+    * Returns the chips gained or lost by player, by subtracting the amount of chips purchased
+    * to the amount chips currently in the player's possession.
+    * @see Player#chips
+    * @see Player#chipsPurchased
+    * @return int The amount of chips player profited
+    */
+    public int winnings() { return chips - chipsPurchased; }
 
+
+    /**
+    * Clears a player's hand, boolean, integer values for the next round.
+     * @return Nothing
+    */
     public void clear() {
         busted = false;
         blackjack = false;
         bet=0;
-        this.clearHand();
+        normalCardSum = 0;
+        splitCardSum = 0;
+        cards.get("normal").clear();
+        cards.get("split").clear();
     }
 
-    protected void buyIn(int chips) { this.chips += chips; }
+
+    protected void buyIn(int chips) {
+        this.chipsPurchased += chips;
+        this.chips += chips;
+        BlackJackConsole.log("Purchased: " + chipsPurchased);
+        BlackJackConsole.log(this.name + " now has " + this.chips + " chips...");
+    }
 
     public void split() { didSplit = true;}
 
@@ -79,15 +103,7 @@ public class Player implements Hand {
 
     public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
 
-    public void clearHand() {
-        normalCardSum = 0;
-        splitCardSum = 0;
-        cards.get("normal").clear();
-        cards.get("split").clear();
-    }
-
     public void hit(String card, boolean isSplit) {
-//        toString();
         int cardValue = 0;
         this.addCard(card, isSplit);
         if(!isSplit) {
@@ -103,30 +119,12 @@ public class Player implements Hand {
 
     public boolean didBust() {
         if (BLACKJACK < this.normalCardSum || (this.didSplit && BLACKJACK < this.splitCardSum)) {
-            Console.log("Busted!");
+            BlackJackConsole.log("Busted!");
             this.busted = true;
             return true;
         }
         return false;
     }
-
-    public void displayHand() {
-        Console.logf("Hand: ");
-        for(String card: cards.get("normal")) {
-            Console.logf(card + " ");
-        }
-
-        Console.log("\nTotal: " + normalCardSum);
-
-        if (didSplit) {
-            Console.logf("Split hand:");
-            for (String card: cards.get("split")) {
-                Console.logf(card + " ");
-            }
-            Console.log("Split Total: " + splitCardSum);
-        }
-    }
-
 
     public void countCards() {
         normalCardSum = 0;
@@ -143,21 +141,6 @@ public class Player implements Hand {
         });
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "cards=" + cards +
-                ", didSplit=" + didSplit +
-                ", busted=" + busted +
-                ", normalCardSum=" + normalCardSum +
-                ", splitCardSum=" + splitCardSum +
-                ", chips=" + chips +
-                ", chipsBought=" + chipsBought +
-                ", name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", bet=" + bet +
-                '}';
-    }
 }
 
 
