@@ -103,44 +103,35 @@ public class Dealer extends Player implements Hand {
         // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
         Iterator iterator = players.entrySet().iterator();
 
-        while(true) {
+        while (iterator.hasNext()) {
 
-            // If there is another player
-            if(iterator.hasNext()) {
-
-                Map.Entry obj = (Map.Entry)iterator.next();
-                Player onPlayer = (Player) obj.getValue();
-//                onPlayer.countCards();
-                onPlayer.display();
-                while((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && Menu.choice("Hit") ) {
+            Map.Entry obj = (Map.Entry) iterator.next();
+            Player onPlayer = (Player) obj.getValue();
 //                    onPlayer.countCards();
-                    onPlayer.display();
-                    onPlayer.hit(deck.draw(), false);
-                    if(onPlayer.didBust()) {
-                        break;
-                    }
+            onPlayer.display();
 
-                }
-
+            if ((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && Menu.choice("Hit")) {
+                onPlayer.hit(deck.draw(), false);
             }
 
-            // Else must be on dealer
-            else {
-                this.display();
-                while (true) {
-                    this.hit(deck.draw(), false);
-                    this.display();
-                    if(limit()) {
-                        this.didBust();
-                        break;
-                    }
-                }
+            if (onPlayer.didBust()) {
                 break;
             }
 
         }
-
+        // Else must be on dealer
+        this.display();
+        while (true) {
+            this.hit(deck.draw(), false);
+            this.display();
+            if (limit()) {
+                this.didBust();
+                break;
+            }
+        }
     }
+
+
 
     public void dispense(LinkedHashMap<String, Player> players) {
             Iterator iterator = players.entrySet().iterator();

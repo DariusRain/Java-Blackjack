@@ -6,7 +6,7 @@ import blackjack.BlackJack;
  * CLI BlackJack Game
  * @author  Darius Rain
  * @version 2.5
- * @since   2020-11-14
+ * @since   2020-11-16
 */
 public class Main {
 
