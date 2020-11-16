@@ -1,5 +1,7 @@
 package blackjack.utils.UserInteractions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,14 +23,22 @@ public class Parser {
 
     public static int handleNumber(String toParse) {return Integer.parseInt(toParse.replaceAll("♡|♣|♠|♢", ""));}
 
-    public static int handleAce() { return Menu.choice("Count Ace as 11?") ? 11 : 1; }
+    public static int handleAce(int cardSum) {
+        if (cardSum + 11 <= 21) {
+            return 11;
+        } else {
+            return 1;
+        }
+    }
 
     public static int handleFace() {return FACE_CARD_VALUE;}
 
-    public static int cardValue(String card) {
+    public static boolean isBlackJack(int cardSum) { return cardSum == 21; }
+
+    public static int cardValue(String card, int cardSum) {
 
         if (isAce(card)) {
-            return handleAce();
+            return handleAce(cardSum);
         }
 
         if (isFace(card)) {

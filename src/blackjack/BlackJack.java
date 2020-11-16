@@ -1,6 +1,7 @@
 package blackjack;
 import blackjack.materials.Table;
 import blackjack.players.Dealer;
+import blackjack.players.Player;
 import blackjack.utils.UserInteractions.Menu;
 
 /**
@@ -66,12 +67,13 @@ public class BlackJack {
 /**
 * Runs a loop that calls methods from the table class representing each step
 * of the process in a Blackjack game, where Table holds the dealer and the players.
-* @see blackjack.materials.Table
-* @see blackjack.players.Dealer
+* @see Table
+* @see Dealer
+ * @see Player
 * @return void
 */
     public void start() {
-        Menu.blackJack();
+        Menu.welcome();
         // If table is empty or initial game since empty() would be true
         while((!gameTable.empty()) || initialGame) {
 
