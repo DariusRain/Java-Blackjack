@@ -11,16 +11,10 @@ public interface Hand {
     * @return ...
     */
     void addCard(String card, boolean isSplit);
-
-
-
     void clear();
-
-
     void hit(String card, boolean isSplit);
     boolean didBust();
     void display();
-    void countCards();
     void split();
 
 }

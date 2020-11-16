@@ -43,6 +43,8 @@ public class BlackJack {
             gameTable.getDealer().dealHits(gameTable.getPlayers());
 
             gameTable.getDealer().dispense(gameTable.getPlayers());
+
+            gameTable.removePlayers();
         }
     }
 
