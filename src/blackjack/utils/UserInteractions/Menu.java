@@ -73,7 +73,7 @@ public class Menu {
     }
 
     public static void winner(String winnerName, String loserName, int winnerSum, int loserSum) {
-        if (21 < loserSum) {
+        if (21 < loserSum){
             Console.log(winnerName + " beat " + loserName + ", " + loserName + " busted");
         } else {
             Console.log(winnerName + " beat " + loserName + " with " + winnerSum + " against " + loserSum);
@@ -84,7 +84,7 @@ public class Menu {
         if (21 < sum1 && 21 < sum2) {
             Console.log(name1 + " tied -> " + name2 + ", both have busted");
         } else if (sum1 == sum2){
-            Console.log(name1 + " tied -> " + name1 + " with " + sum1 + " against " + sum2);
+            Console.log(name1 + " tied -> " + name2 + " with " + sum1 + " against " + sum2);
         }
     }
 

@@ -54,7 +54,7 @@ public class Table {
             Player onPlayer = (Player) obj.getValue();
 
             if (!onPlayer.canPlay()) {
-                players.remove(IdGenerator.toKey(onPlayer.name, onPlayer.id));
+                iterator.remove();
             }
 
         }

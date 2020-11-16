@@ -60,7 +60,7 @@ public class Player implements Hand {
     public void display() { BlackJackConsole.displayPlayer(name, id, chips, winnings(), normalCardSum, splitCardSum, didSplit, cards); }
 
 
-    public boolean canPlay() { return chips > 0; }
+    public boolean canPlay() { return 0 < chips; }
 
     /**
     * Returns the chips gained or lost by player, by subtracting the amount of chips purchased
@@ -97,17 +97,13 @@ public class Player implements Hand {
     public void split() { didSplit = true;}
 
     public void lost(boolean blackjack) {
-        Console.log("Bet was " + this.bet);
-        int chipsLost = blackjack ? chips - bet * 4 : chips - bet;
-        Console.log("( " + this.name + this.id + " ) lost " + chipsLost + " chips -> ( " + this.chips + " - " + chipsLost + " )");
-        this.chips = chipsLost;
+        int chipsLost = blackjack ? bet * 4 : bet;
+        this.chips -= chipsLost;
     }
 
     public void win() {
-        Console.log("Bet was " + this.bet);
-        int chipsWon = blackjack ? chips + bet * 4 : chips + bet;
-        Console.log("( " + this.name + this.id + " ) won " + chipsWon + " chips -> ( " + this.chips + " + " + chipsWon + " )");
-        this.chips = chipsWon; }
+        int chipsWon = blackjack ? bet * 4 : bet;
+        this.chips += chipsWon; }
 
     public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
 

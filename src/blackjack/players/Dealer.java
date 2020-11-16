@@ -72,8 +72,6 @@ public class Dealer extends Player implements Hand {
         while ( dealCount++ < 2 ) {
             // Class made for iterating collections,  similar to Scanner.nextLine()
             Iterator iterator = players.entrySet().iterator();
-            Console.log("Deal count: " + dealCount);
-
             while (iterator.hasNext()) {
                 // This returns the key and value in object.
                 Map.Entry obj = (Map.Entry)iterator.next();
@@ -88,6 +86,7 @@ public class Dealer extends Player implements Hand {
 
                 onPlayer.hit(deck.draw(), false);
                 if (Parser.isBlackJack(onPlayer.normalCardSum)) {
+                    Console.log("****** ( Blackjack Bonus ) ******");
                     onPlayer.blackjack = true;
                     Console.logf(onPlayer.name + " -> ");
                     Menu.blackJack();
@@ -152,22 +151,24 @@ public class Dealer extends Player implements Hand {
 //                Menu.result(this.name, this.normalCardSum, onPlayer.name, onPlayer.normalCardSum);
 
                 // If dealer won
-                if ( onPlayer.busted == true && this.busted == false || this.normalCardSum >= 21 && onPlayer.normalCardSum < this.normalCardSum) {
+                if ( onPlayer.busted && this.busted == false || this.normalCardSum <= 21 && onPlayer.normalCardSum < this.normalCardSum) {
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                     onPlayer.lost(this.blackjack);
-                    Console.log("Dealer won: " + onPlayer.chips + "");
+                    Console.log("Dealer won: " + (this.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet));
+
 
                 }
 
                 // if player won
-                if (this.busted == true && onPlayer.busted == false || onPlayer.normalCardSum >= 21 && this.normalCardSum < onPlayer.normalCardSum ) {
+                if (this.busted == true && onPlayer.busted == false || onPlayer.normalCardSum <= 21 && this.normalCardSum < onPlayer.normalCardSum ) {
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
-                    Console.log(onPlayer.name + " won: " + onPlayer.chips + "");
+                    Console.log(onPlayer.name + " won: " + (onPlayer.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet));
+
                 }
 
                 // if tie
-                if (!this.busted && !onPlayer.busted || this.normalCardSum == onPlayer.normalCardSum) {
+                if (this.busted && onPlayer.busted || this.normalCardSum == onPlayer.normalCardSum) {
                     Menu.tie(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                 }
 
