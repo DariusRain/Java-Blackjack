@@ -39,8 +39,14 @@ public class Menu {
         String response = Console.input(message);
         String parsedResponse = response.replaceAll("\\D+", "");
 
-        if (Parser.compare(response, "^[0-9]+$")) {
-            return Integer.parseInt(response);
+        if (Parser.compare(response, "^\\d+$")) {
+            try {
+                return Integer.parseInt(response);
+            } catch (NumberFormatException e) {
+                invalid(response + "(Too large!!)");
+
+                return askForInt(message);
+            }
         }
 
         invalid(response);

@@ -106,7 +106,7 @@ public class Player implements Hand {
     public void win() {
         Console.log("Bet was " + this.bet);
         int chipsWon = blackjack ? chips + bet * 4 : chips + bet;
-        Console.log("( " + this.name + this.id + " ) lost " + chipsWon + " chips -> ( " + this.chips + " + " + chipsWon + " )");
+        Console.log("( " + this.name + this.id + " ) won " + chipsWon + " chips -> ( " + this.chips + " + " + chipsWon + " )");
         this.chips = chipsWon; }
 
     public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
@@ -134,20 +134,7 @@ public class Player implements Hand {
         return false;
     }
 
-    public void countCards() {
-        normalCardSum = 0;
-        splitCardSum = 0;
-        cards.forEach((key, value) -> {
-            for (String card : value) {
-                if (key.equals(SPLIT_HAND)) {
-                    hit(card, true);
-                }
-                if (key.equals(NORMAL_HAND)) {
-                    hit(card, false);
-                }
-            }
-        });
-    }
+
 
 }
 

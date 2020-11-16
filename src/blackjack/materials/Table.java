@@ -4,7 +4,10 @@ import blackjack.players.Dealer;
 import blackjack.players.Player;
 import blackjack.utils.UserInteractions.Menu;
 import blackjack.utils.generators.IdGenerator;
+
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
 * <h1>Table</h1>
@@ -39,11 +42,23 @@ public class Table {
 
     /**
     * Removes player from hashmap that is no longer playing.
-    * @param user -> Player Object that gets added to the players hashmap.
     * @see Player
     * @return Nothing
     */
-    public void removePlayer(Player user) { players.remove(IdGenerator.toKey(user.name, user.id)); }
+    public void removePlayers() {
+        Iterator iterator = players.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+
+            Map.Entry obj = (Map.Entry) iterator.next();
+            Player onPlayer = (Player) obj.getValue();
+
+            if (!onPlayer.canPlay()) {
+                players.remove(IdGenerator.toKey(onPlayer.name, onPlayer.id));
+            }
+
+        }
+    }
 
     /**
     * Runs a loop until either table is full or user rejects going further answering (y/n)
@@ -94,6 +109,8 @@ public class Table {
      * @return boolean
      */
     public boolean full() { return MAX < players.size(); }
+
+
 
 }
 

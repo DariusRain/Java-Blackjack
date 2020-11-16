@@ -67,6 +67,7 @@ public class Dealer extends Player implements Hand {
     // loops through O(size * 2) and deals the initial deal before game starts.
     public void dealRound(LinkedHashMap<String, Player> players) {
         // https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+        deck.reset();
         int dealCount = 0;
         while ( dealCount++ < 2 ) {
             // Class made for iterating collections,  similar to Scanner.nextLine()
@@ -77,6 +78,7 @@ public class Dealer extends Player implements Hand {
                 // This returns the key and value in object.
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
+
 
                 if (dealCount == 1) {
                     onPlayer.display();
@@ -113,7 +115,6 @@ public class Dealer extends Player implements Hand {
 
             Map.Entry obj = (Map.Entry) iterator.next();
             Player onPlayer = (Player) obj.getValue();
-//                    onPlayer.countCards();
             onPlayer.display();
 
             if ((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && Menu.choice("Hit")) {
@@ -151,7 +152,7 @@ public class Dealer extends Player implements Hand {
 //                Menu.result(this.name, this.normalCardSum, onPlayer.name, onPlayer.normalCardSum);
 
                 // If dealer won
-                if ( onPlayer.busted == true && this.busted == false || onPlayer.normalCardSum < this.normalCardSum) {
+                if ( onPlayer.busted == true && this.busted == false || this.normalCardSum >= 21 && onPlayer.normalCardSum < this.normalCardSum) {
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                     onPlayer.lost(this.blackjack);
                     Console.log("Dealer won: " + onPlayer.chips + "");
@@ -159,7 +160,7 @@ public class Dealer extends Player implements Hand {
                 }
 
                 // if player won
-                if (this.busted == true && onPlayer.busted == false || this.normalCardSum < onPlayer.normalCardSum ) {
+                if (this.busted == true && onPlayer.busted == false || onPlayer.normalCardSum >= 21 && this.normalCardSum < onPlayer.normalCardSum ) {
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
                     Console.log(onPlayer.name + " won: " + onPlayer.chips + "");
