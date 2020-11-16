@@ -73,13 +73,15 @@ public class Player implements Hand {
 
     public void split() { didSplit = true;}
 
-    protected void lost(boolean blackjack) { this.chips -= blackjack ? bet * 4 : bet; }
+    public void lost(boolean blackjack) { this.chips = blackjack ? chips - bet * 4 : chips - bet; }
 
-    protected void win() { this.chips += blackjack ? bet * 4 : bet; }
+    public void win() { this.chips = blackjack ? chips + bet * 4 : chips + bet; }
 
     public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
 
     public void clearHand() {
+        normalCardSum = 0;
+        splitCardSum = 0;
         cards.get("normal").clear();
         cards.get("split").clear();
     }
