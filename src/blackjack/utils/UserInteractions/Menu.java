@@ -22,7 +22,7 @@ public class Menu {
     // askFor methods Returns any extpected return value user types in, removes whitespace
     public static String askForString(String message) {
 
-        String response = Console.input(message).strip().trim();
+        String response = Console.input(message).replaceAll("\\W+|\\d+", "").strip().trim();
         if (response.length() > 0) {
             return response;
         }
@@ -34,7 +34,7 @@ public class Menu {
     }
 
     public static int askForInt(String message) {
-        String response = Console.input(message);
+        String response = Console.input(message).replaceAll("\\D+", "");
         if (Parser.compare(response, "^[0-9]+$")) {
             return Integer.parseInt(response);
         }
@@ -59,22 +59,30 @@ public class Menu {
 
     public static void winner(String winnerName, String loserName, int winnerSum, int loserSum) {
         if (21 < loserSum) {
-            Console.log(winnerName + " beat -> " + loserName + ", " + loserName + "busted");
+            Console.log(winnerName + " beat " + loserName + ", " + loserName + " busted");
         } else {
-            Console.log(winnerName + " beat -> " + loserName + " with " + winnerSum + " against " + loserSum);
+            Console.log(winnerName + " beat " + loserName + " with " + winnerSum + " against " + loserSum);
         }
     }
 
     public static void tie(String name1, String name2, int sum1, int sum2) {
         if (21 < sum1 && 21 < sum2) {
             Console.log(name1 + " tied -> " + name2 + ", both have busted");
-        } else {
+        } else if (sum1 == sum2){
             Console.log(name1 + " tied -> " + name1 + " with " + sum1 + " against " + sum2);
         }
     }
 
+    public static void result(String dealerName, int dealerCardSum, String playerName, int playerCardSum) {
+
+    }
+
+    public static void welcome() {
+        Console.log("****************( Welcome to blackjack! )****************");
+    }
+
     public static void blackJack() {
-        Console.log("Welcome to Java-Blackjack!");
+        Console.log("BLACKJACK!!!");
     }
 
     public static void newRound() {

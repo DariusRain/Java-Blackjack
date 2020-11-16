@@ -3,6 +3,7 @@ package blackjack.players;
 import blackjack.materials.Deck;
 import blackjack.utils.UserInteractions.Menu;
 import blackjack.utils.UserInteractions.Console;
+import blackjack.utils.UserInteractions.Parser;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -17,7 +18,7 @@ import java.util.Map;
 * @version 1.0
 * @since   20-11-14
 */
-public class Dealer extends Player {
+public class Dealer extends Player implements Hand {
 
     private Deck deck = new Deck();
     private static final int RULE = 17;
@@ -50,10 +51,12 @@ public class Dealer extends Player {
 
 
     /**
-    *
-    * @param ...
-    * @see ...
-    * @return ...
+    * Loops through a linked hashmap of {@code Player} classes expected to be passed as
+    * an argument.  During each iteration of the first loop a nested loop deals to players and after that loop stops
+    * @param players -> {@code LinkedHashMap<String,Player>}
+    * @see Player
+     * @see LinkedHashMap
+    * @return Nothing
     */
     // loops through O(size * 2) and deals the initial deal before game starts.
     public void dealRound(LinkedHashMap<String, Player> players) {
@@ -75,13 +78,21 @@ public class Dealer extends Player {
                     onPlayer.bet(numberOfChips);
                 }
 
-                onPlayer.addCard(deck.draw(), false);
-
+                onPlayer.hit(deck.draw(), false);
+                if (Parser.isBlackJack(onPlayer.normalCardSum)) {
+                    onPlayer.blackjack = true;
+                    Console.logf(onPlayer.name + " -> ");
+                    Menu.blackJack();
+                }
             }
 
             // This is the the Dealer's hand
-            addCard(deck.draw(), false);
-
+            this.hit(deck.draw(), false);
+            if (Parser.isBlackJack(this.normalCardSum)) {
+                this.blackjack = true;
+                Console.logf(this.name + " -> ");
+                Menu.blackJack();
+            }
 
         }
     }
@@ -99,15 +110,16 @@ public class Dealer extends Player {
 
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
-                onPlayer.countCards();
+//                onPlayer.countCards();
                 onPlayer.display();
-                while(Menu.choice("Hit")) {
-                    onPlayer.countCards();
-                    onPlayer.hit(deck.draw(), false);
+                while((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && Menu.choice("Hit") ) {
+//                    onPlayer.countCards();
                     onPlayer.display();
+                    onPlayer.hit(deck.draw(), false);
                     if(onPlayer.didBust()) {
                         break;
                     }
+
                 }
 
             }
@@ -136,19 +148,24 @@ public class Dealer extends Player {
                 Map.Entry obj = (Map.Entry)iterator.next();
                 Player onPlayer = (Player) obj.getValue();
 
+
+//                Menu.result(this.name, this.normalCardSum, onPlayer.name, onPlayer.normalCardSum);
                 // If dealer won
                 if ( onPlayer.busted && !this.busted || onPlayer.normalCardSum < this.normalCardSum) {
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
-                    onPlayer.lost();
+                    onPlayer.lost(this.blackjack);
+                    Console.log("Dealer won: " + onPlayer.chips + "");
+
                 }
                 // if player won
-                if (this.busted && !onPlayer.busted || this.normalCardSum < this.normalCardSum ) {
+                if (this.busted && !onPlayer.busted || this.normalCardSum < onPlayer.normalCardSum ) {
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
+                    Console.log(onPlayer.name + "won" + onPlayer.chips + "");
                 }
 
                 // if tie
-                if (this.busted && onPlayer.busted || this.normalCardSum == onPlayer.normalCardSum) {
+                if (!this.busted && !onPlayer.busted || this.normalCardSum == onPlayer.normalCardSum) {
                     Menu.tie(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                 }
 
