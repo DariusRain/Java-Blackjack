@@ -23,7 +23,7 @@ public class Player implements Hand {
     protected int chipsPurchased = 0;
     public String name;
     public String id;
-    public int bet = 0;
+    protected int bet = 0;
 
 //    protected Hand playerHand = new Hand();
 //    protected ArrayList<String> split = new ArrayList<>();
