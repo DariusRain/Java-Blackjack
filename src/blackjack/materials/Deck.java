@@ -1,9 +1,9 @@
 package blackjack.materials;
-import blackjack.players.Hand;
+import blackjack.utils.UserInteractions.BlackJackConsole;
 import blackjack.utils.UserInteractions.Console;
 import blackjack.utils.generators.CardGenerator;
 import java.util.*;
-import java.util.stream.Collectors;
+
 /**
 * <h1>Deck</h1>
 * <p>
@@ -31,6 +31,7 @@ public class Deck {
     public String draw() {
         int lastSize = cards.size() * 1;
         String card = CardGenerator.nextCard();
+        BlackJackConsole.log("Draw: " + card);
         cards.add(card);
         if (lastSize == cards.size()) { return draw(); }
         return card;
@@ -46,6 +47,15 @@ public class Deck {
         cards.clear();
     }
 
+
+
+public void test() {
+        while(cards.size() < 52) {
+            Console.logf("*");
+            draw();
+        }
+        Console.log(cards.toString());
+}
 }
 
 

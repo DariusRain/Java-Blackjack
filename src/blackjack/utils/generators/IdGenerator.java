@@ -1,12 +1,8 @@
 package blackjack.utils.generators;
 
-import blackjack.utils.generators.Generator;
-
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
-public class IdGenerator extends Generator {
+public class IdGenerator extends GeneratorY {
     public static HashMap<String, String> idList = new HashMap<>();
 
     public static String id(String playerName) {
