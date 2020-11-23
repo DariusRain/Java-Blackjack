@@ -10,7 +10,7 @@ public class BlackJackConsole extends Console {
 
     public static void displayPlayer(String name, String id, int chips, int winnings, int normalCardSum, int splitCardSum, boolean didSplit, HashMap<String, ArrayList<String>> cards) {
         clearScreen();
-        log("( " + name  + "-" + id + " ) " +"Chips: " + chips + " Winnings: " + winnings);
+        log("( " + name  + " ID#" + id + " ) " +"Chips: " + chips + " Winnings: " + winnings);
 
         Console.logf("Hand: ");
         for(String card: cards.get("normal")) {

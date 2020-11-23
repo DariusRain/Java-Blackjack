@@ -116,13 +116,14 @@ public class Dealer extends Player implements Hand {
             Player onPlayer = (Player) obj.getValue();
             onPlayer.display();
 
-            if ((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && Menu.choice("Hit")) {
+            while(onPlayer.blackjack == false && Menu.choice("Hit")) {
                 onPlayer.hit(deck.draw(), false);
+                onPlayer.display();
+                if (onPlayer.didBust()) {
+                    break;
+                }
             }
 
-            if (onPlayer.didBust()) {
-                break;
-            }
 
         }
         // Else must be on dealer
@@ -140,7 +141,8 @@ public class Dealer extends Player implements Hand {
 
 
     public void dispense(LinkedHashMap<String, Player> players) {
-
+            Console.clearScreen();
+            Console.log("Game Results: ");
             Iterator iterator = players.entrySet().iterator();
 
             while (iterator.hasNext()) {
@@ -152,24 +154,28 @@ public class Dealer extends Player implements Hand {
 
                 // If dealer won
                 if ( onPlayer.busted && this.busted == false || this.normalCardSum <= 21 && onPlayer.normalCardSum < this.normalCardSum) {
+                    Console.log("\n");
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
                     onPlayer.lost(this.blackjack);
-                    Console.log("Dealer won: " + (this.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet));
-
+                    Console.log("House won: " + (this.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet) + " chips...");
+                    Console.log("\n");
 
                 }
 
                 // if player won
                 if (this.busted == true && onPlayer.busted == false || onPlayer.normalCardSum <= 21 && this.normalCardSum < onPlayer.normalCardSum ) {
+                    Console.log("\n");
                     Menu.winner(onPlayer.name, this.name, onPlayer.normalCardSum, this.normalCardSum);
                     onPlayer.win();
-                    Console.log(onPlayer.name + " won: " + (onPlayer.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet));
-
+                    Console.log( onPlayer.name + " won: " + (onPlayer.blackjack ? "(BLACKJACK BONUS = " + onPlayer.bet * 4 + " = ( " + onPlayer.bet + " x 4" + " ) )" : onPlayer.bet) + " chips...");
+                    Console.log("\n");
                 }
 
                 // if tie
                 if (this.busted && onPlayer.busted || this.normalCardSum == onPlayer.normalCardSum) {
+                    Console.log("\n");
                     Menu.tie(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
+                    Console.log("\n");
                 }
 
                 // Clear player's fields for new hand
@@ -179,6 +185,7 @@ public class Dealer extends Player implements Hand {
 
             // Like above but for dealer.
             this.clear();
+            Console.clearScreen();
 
     }
 

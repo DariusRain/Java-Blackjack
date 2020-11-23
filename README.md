@@ -1,14 +1,11 @@
-# Blackjack	v1.0
-Requires Xeger & Automation libraries to be added. <br />
-If you do not want to bother with libraries then please try the <br />
-most updated version -> [v1.1](https://github.com/DariusRain/Java-Blackjack/tree/v1.1) where no libraries are required.
+# Blackjack v1.1
 
-##### Requirements:
-Download the following JAR files and add to your projects <br/>
-NOTE: Adding libraries depends on text editor of choice for IntelliJ 
-I suggest following [this](https://stackoverflow.com/a/1051705/12905071) <br/>
-     [Xeger ( Download JAR )](https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/xeger/xeger-1.0-SNAPSHOT.jar) <br/>
-     [Xeger ( Documentation )](https://code.google.com/archive/p/xeger/) <br />
-     [automation ( Download  JAR )](http://www.brics.dk/automaton/automaton.jar) <br />
-     [automation (Documentation)](https://www.brics.dk/automaton/) <br />
-     
+##### No Requirements for this version.
+If you want to check out the previous [version](https://github.com/DariusRain/Java-Blackjack/tree/v1.0/) (v1.0) which requires <br />
+both Google's [Xeger](https://code.google.com/archive/p/xeger/) and [dk.brics.automaton](https://www.brics.dk/automaton/) libraries.  
+
+The only difference code wise takes place with classes in blackjack.utils.generators package.<br />
+Checkout Generator and CardGenerator classes to see differences: <br /> 
+[blackjack.utils.generators v1.0](https://github.com/DariusRain/Java-Blackjack/blob/v1.0/src/blackjack/utils/generators) <br />
+[blackjack.utils.generators v1.1](https://github.com/DariusRain/Java-Blackjack/blob/v1.1/src/blackjack/utils/generators) <br />
+

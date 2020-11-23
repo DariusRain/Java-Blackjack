@@ -1,4 +1,5 @@
 package blackjack;
+import blackjack.materials.Deck;
 import blackjack.materials.Table;
 import blackjack.players.Dealer;
 import blackjack.players.Player;
@@ -46,6 +47,9 @@ public class BlackJack {
 
             gameTable.removePlayers();
         }
+
+//        Deck deck = new Deck();
+//        deck.test();
     }
 
 

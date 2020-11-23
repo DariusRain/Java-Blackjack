@@ -1,26 +1,26 @@
 package blackjack.utils.generators;
 
 public class CardGenerator extends Generator {
+    private static final String[] SUITS = {"♢", "♠", "♡", "♣"};
+    private static final String[] FACES = {"Jack", "Queen", "King", "Ace"};
+    private static final int FACE_VALUES = 13;
+    public static int low = 1;
+    public static int high = 10;
 
-    /**
-    * Generates a random card suit.
-    * @return String -> "♡ or ♣ or ♠ or ♢"
-    */
-    public static String suit() { return generate("♡|♣|♠|♢"); }
+    public static String suit() { return SUITS[generate(SUITS.length) - 1]; }
 
-    /**
-     * Generates a random card suit.
-     * @return String -> "2 through 9 or 10 or Ace or King or Queen or Jack"
-     */
-    public static String face() { return generate("[2-9]|10|Ace|King|Queen|Jack"); }
+    public static String face() {
+        int faceValue = generate(FACE_VALUES);
+        if (faceValue <= high && faceValue > low) {
+            return faceValue + "";
+        } else {
+            faceValue = generate(FACES.length);
+            return FACES[faceValue == FACES.length ? 0 : faceValue];
+        }
+    }
 
-    /**
-     * Generates a random card suit and face.
-     * @see CardGenerator#suit()
-     * @see CardGenerator#face()
-     * @return String -> suit() + face()
-     */
     public static String nextCard() {
         return suit() + face();
     }
+
 }
