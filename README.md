@@ -1,5 +1,7 @@
-# Blackjack in Java
-
+# Blackjack	v1.0
+Requires Xeger & Automation libraries to be added. <br />
+If you do not want to bother with libraries then please try the <br />
+most updated version -> [v1.1](https://github.com/DariusRain/Java-Blackjack/tree/v1.1) where no libraries are required.
 
 ##### Requirements:
 Download the following JAR files and add to your projects <br/>
