@@ -33,23 +33,23 @@ public class BlackJack {
     public void start() {
         Menu.welcome();
         // If table is empty or initial game since empty() would be true
-//        while((!gameTable.empty()) || initialGame) {
-//
-//            initialGame = false;
-//
-//            gameTable.loadPlayers();
-//
-//            gameTable.getDealer().dealRound(gameTable.getPlayers());
-//
-//            gameTable.getDealer().dealHits(gameTable.getPlayers());
-//
-//            gameTable.getDealer().dispense(gameTable.getPlayers());
-//
-//            gameTable.removePlayers();
-//        }
+        while((!gameTable.empty()) || initialGame) {
 
-        Deck deck = new Deck();
-        deck.test();
+            initialGame = false;
+
+            gameTable.loadPlayers();
+
+            gameTable.getDealer().dealRound(gameTable.getPlayers());
+
+            gameTable.getDealer().dealHits(gameTable.getPlayers());
+
+            gameTable.getDealer().dispense(gameTable.getPlayers());
+
+            gameTable.removePlayers();
+        }
+
+//        Deck deck = new Deck();
+//        deck.test();
     }
 
 

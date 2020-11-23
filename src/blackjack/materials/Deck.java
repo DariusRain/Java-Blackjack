@@ -22,6 +22,7 @@ public class Deck {
 
     //  A container to hold unique values pf cards, see "draw()" for where this
     private Set<String> cards = new HashSet<>();
+    private int count = 0;
 
 /**
 * Returns recursively until card is not a duplicate based on the size of the Set.
@@ -29,11 +30,12 @@ public class Deck {
 * @return String -> Returns a unique card
 */
     public String draw() {
+        count+=1;
         int lastSize = cards.size() * 1;
         String card = CardGenerator.nextCard();
-        BlackJackConsole.log("Draw: " + card);
         cards.add(card);
         if (lastSize == cards.size()) { return draw(); }
+        BlackJackConsole.log("Draw: " + card + " Count: " + count);
         return card;
     }
 
@@ -51,8 +53,8 @@ public class Deck {
 
 public void test() {
         while(cards.size() < 52) {
-            Console.logf("*");
-            draw();
+            Console.log("Size: " + cards.size());
+            cards.add(draw());
         }
         Console.log(cards.toString());
 }

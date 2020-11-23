@@ -116,13 +116,14 @@ public class Dealer extends Player implements Hand {
             Player onPlayer = (Player) obj.getValue();
             onPlayer.display();
 
-            while((!(this.blackjack || onPlayer.blackjack || onPlayer.normalCardSum == BLACKJACK)) && !onPlayer.didBust() && Menu.choice("Hit")) {
+            while(onPlayer.blackjack == false && Menu.choice("Hit")) {
                 onPlayer.hit(deck.draw(), false);
+                onPlayer.display();
+                if (onPlayer.didBust()) {
+                    break;
+                }
             }
 
-            if (onPlayer.didBust()) {
-                break;
-            }
 
         }
         // Else must be on dealer
