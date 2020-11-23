@@ -10,16 +10,9 @@ public class CardGenerator extends Generator {
     private static final int FACE_VALUES = 13;
     public static int low = 1;
     public static int high = 10;
-    public static String suit() {
-//        Console.logf("/Suit: ");
-        int suit = generate(SUITS.length) - 1;
-        Console.log("Suit == 0: " + (suit == 0) + "");
-        return SUITS[suit];
-    }
+    public static String suit() { return SUITS[generate(SUITS.length) - 1]; }
     public static String face() {
-//        Console.logf("Face: ");
         int faceValue = generate(FACE_VALUES);
-        Console.log("Face == 13: " + (faceValue == 13) + "");
         if (faceValue <= high && faceValue > low) {
             return faceValue + "";
         } else {
