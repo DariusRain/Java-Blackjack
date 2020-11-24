@@ -1,8 +1,5 @@
 package blackjack.utils.UserInteractions;
 
-import blackjack.players.Dealer;
-import blackjack.players.Player;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

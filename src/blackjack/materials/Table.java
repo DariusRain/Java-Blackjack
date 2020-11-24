@@ -53,7 +53,7 @@ public class Table {
             Map.Entry obj = (Map.Entry) iterator.next();
             Player onPlayer = (Player) obj.getValue();
 
-            if (!onPlayer.canPlay()) {
+            if (!onPlayer.hasChips()) {
                 iterator.remove();
             }
 
@@ -77,7 +77,6 @@ public class Table {
         }
 
     }
-
 
     /**
     * Returns the dealer field from the Table class.

@@ -14,10 +14,12 @@ import java.util.Map;
 /**
 * <h1>Dealer</h1>
 * <p>
-*   This class contains Deck
+*   This class contains Deck and methods that handle players in the game,
+ *   this would be located in the Table class
 * </p>
+ * @see blackjack.materials.Table#dealer
 * @author  Darius Rain
-* @version 1.0
+* @version 1.1
 * @since   20-11-14
 */
 public class Dealer extends Player implements Hand {
@@ -40,7 +42,6 @@ public class Dealer extends Player implements Hand {
 
     /**
     * Takes input and passes the integer as the user's buy in.
-    * NOTE: Dealer can only call the player's buy in method.
     * @param user -> Uses the buy in method since classes only within package.players can call it.
     * @see Player#buyIn(int)
     * @see Menu#askForInt(String)
@@ -52,8 +53,6 @@ public class Dealer extends Player implements Hand {
         BlackJackConsole.log("Your ID: " + user.id);
     }
 
-
-
     /**
     * Loops through a linked hashmap of {@code Player} classes expected to be passed as
     * an argument.  Before dealing the first card each player will be prompted for their
@@ -62,9 +61,9 @@ public class Dealer extends Player implements Hand {
     * @param players -> {@code LinkedHashMap<String,Player>}
     * @see Player
     * @see LinkedHashMap
-    * @return Nothing
+     * @see BlackJack#start()
+     * @return Nothing
     */
-    // loops through O(size * 2) and deals the initial deal before game starts.
     public void dealRound(LinkedHashMap<String, Player> players) {
         // https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
         deck.reset();
@@ -104,7 +103,16 @@ public class Dealer extends Player implements Hand {
         }
     }
 
-    // loops through O((playersSize + playerHits) + dealerHits) times and asks a player for a hit until player says no.
+
+    /**
+    * Iterates through a linked hashmap from the Table class then displays
+     * and asks each player if they want to hit. Then the dealer hits himself
+     * based on sum being less than 17.
+    * @param players Linked hashmap of players to be iterated through.
+    * @see blackjack.materials.Table#players
+     * @see BlackJack#start()
+     * @return Nothing
+    */
     public void dealHits(LinkedHashMap<String, Player> players) {
 
         // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
@@ -139,7 +147,14 @@ public class Dealer extends Player implements Hand {
     }
 
 
-
+    /**
+    * Iterates through players and add chips or subtract chips bet by each player.  Based on
+     * each player's comparison to the dealer.  And for players who got blackjack they get x2.5 and double x2.
+    * @param players
+    * @see blackjack.materials.Table#players
+     * @see BlackJack#start()
+    * @return ...
+    */
     public void dispense(LinkedHashMap<String, Player> players) {
             Console.clearScreen();
             Console.log("Game Results: ");
@@ -150,9 +165,7 @@ public class Dealer extends Player implements Hand {
                 Player onPlayer = (Player) obj.getValue();
 
 
-//                Menu.result(this.name, this.normalCardSum, onPlayer.name, onPlayer.normalCardSum);
-
-                // If dealer won
+                // If house won
                 if ( onPlayer.busted && this.busted == false || this.normalCardSum <= 21 && onPlayer.normalCardSum < this.normalCardSum) {
                     Console.log("\n");
                     Menu.winner(this.name, onPlayer.name, this.normalCardSum, onPlayer.normalCardSum);
