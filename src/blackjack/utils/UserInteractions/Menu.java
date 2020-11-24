@@ -67,11 +67,6 @@ public class Menu {
         return bet(playerChips);
     }
 
-
-    public static void displayPlayer(Player user) {
-        Console.log("Player: " + user.name + "Winnings: " + user.winnings());
-    }
-
     public static void winner(String winnerName, String loserName, int winnerSum, int loserSum) {
         if (21 < loserSum){
             Console.log(winnerName + " beat " + loserName + ", " + loserName + " busted");
@@ -100,10 +95,5 @@ public class Menu {
         Console.log("New round starting, new players may join!");
     }
 
-    public static void displayPlayers(ArrayList<Player> players) {
-        for (Player user : players) {
-            displayPlayer(user);
-        }
-    }
 
 }

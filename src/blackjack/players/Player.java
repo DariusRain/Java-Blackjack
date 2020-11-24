@@ -1,14 +1,24 @@
 package blackjack.players;
-import blackjack.BlackJack;
 import blackjack.utils.UserInteractions.BlackJackConsole;
-import blackjack.utils.UserInteractions.Console;
 import blackjack.utils.UserInteractions.Parser;
 import blackjack.utils.generators.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-public class Player implements Hand {
+
+/**
+* <h1>Player</h1>
+* <p>
+*     In this class contains a class made to meet a user's expectations during their experience in a virtual or
+ *    a blackjack game at a casino or at home.
+* </p>
+* @author  Darius Rain
+* @version 1.1
+* @since   20-11-24
+*/
+public class Player implements Hand, Purchases {
 
     protected HashMap<String, ArrayList<String>> cards = new HashMap<>();
     protected final static int BLACKJACK = 21;
@@ -17,6 +27,7 @@ public class Player implements Hand {
     protected boolean didSplit = false;
     protected boolean busted = false;
     protected boolean blackjack = false;
+    protected boolean doubleDown = false;
     protected int normalCardSum = 0;
     protected int splitCardSum = 0;
     protected int chips = 0;
@@ -25,9 +36,14 @@ public class Player implements Hand {
     public String id;
     protected int bet = 0;
 
-//    protected Hand playerHand = new Hand();
-//    protected ArrayList<String> split = new ArrayList<>();
-
+    /**
+    * This constructor only takes a name of a player.
+     * Every other field above is default/pre-assigned except for the cards field.
+     * Note: the cards field instantiates a hashmap of key:string-hand-type value:Arraylist<String>
+    * @param name The only parameter expected
+    * @see Dealer#dealRound(LinkedHashMap) Only place Player gets instantiated.
+    * @return Player
+    */
     public Player (String name) {
         this.name = name;
         id = IdGenerator.id(name);
@@ -37,12 +53,12 @@ public class Player implements Hand {
 
     /**
     * Player can bet chips
-    *  NOTE: Chips are not subtracted from bet during thi
+    *  NOTE: Chips are not subtracted from bet during the hit, but the bet field is set.
     * @see Player#bet
     * @param chips Chips to bet
     * @return boolean -> lets calling class know if the bet is valid
     */
-    protected boolean bet(int chips) {
+    public boolean bet(int chips) {
         if (chips <= this.chips) {
             this.bet = chips;
             return true;
@@ -60,7 +76,29 @@ public class Player implements Hand {
     public void display() { BlackJackConsole.displayPlayer(name, id, chips, winnings(), normalCardSum, splitCardSum, didSplit, cards); }
 
 
-    public boolean canPlay() { return 0 < chips; }
+
+    public void lost(boolean blackjack) {
+        int chipsLost = blackjack ? bet * 4 : bet;
+        this.chips -= chipsLost;
+    }
+
+
+    public void win() {
+        int chipsWon = blackjack ? bet * 4 : bet;
+        this.chips += chipsWon;
+    }
+
+
+
+    // Purchases Interface ================================================
+    /**
+    * Returns true or false if player can play based on the chips field.
+    * @see Purchases#hasChips()
+     * @see Dealer#dispense(LinkedHashMap)
+     * @see #chips
+    * @return ...
+    */
+    public boolean hasChips() { return 0 < chips; }
 
     /**
     * Returns the chips gained or lost by player, by subtracting the amount of chips purchased
@@ -71,42 +109,29 @@ public class Player implements Hand {
     */
     public int winnings() { return chips - chipsPurchased; }
 
-
     /**
-    * Clears a player's hand, boolean, integer values for the next round.
-     * @return Nothing
+    * About ...
+    * @param chips
+    * @see Purchases#buyIn(int)
+    * @return Nothing
     */
-    public void clear() {
-        busted = false;
-        blackjack = false;
-        bet=0;
-        normalCardSum = 0;
-        splitCardSum = 0;
-        cards.get("normal").clear();
-        cards.get("split").clear();
-    }
-
-
-    protected void buyIn(int chips) {
+    public void buyIn(int chips) {
         this.chipsPurchased += chips;
         this.chips += chips;
         BlackJackConsole.log("Purchased: " + chipsPurchased);
         BlackJackConsole.log(this.name + " now has " + this.chips + " chips...");
     }
+    //==============================================================================
 
-    public void split() { didSplit = true;}
 
-    public void lost(boolean blackjack) {
-        int chipsLost = blackjack ? bet * 4 : bet;
-        this.chips -= chipsLost;
-    }
-
-    public void win() {
-        int chipsWon = blackjack ? bet * 4 : bet;
-        this.chips += chipsWon; }
-
-    public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
-
+    // Hand interface ==============================================================
+    /**
+    * Adds to normalCardSum or splitCardSum
+    * @param card
+     * @param isSplit
+    * @see Hand#hit(String, boolean)
+    * @return Nothing
+    */
     public void hit(String card, boolean isSplit) {
         int cardValue = 0;
         this.addCard(card, isSplit);
@@ -121,6 +146,11 @@ public class Player implements Hand {
     }
 
 
+    /**
+    * Checks if a player's normal hand sum or if split hand both are over 21
+    * @see Hand#didBust()
+    * @return boolean
+    */
     public boolean didBust() {
         if (BLACKJACK < this.normalCardSum || (this.didSplit && BLACKJACK < this.splitCardSum)) {
             BlackJackConsole.log("Busted!");
@@ -130,7 +160,47 @@ public class Player implements Hand {
         return false;
     }
 
+    /**
+    * Adds a card to either a player's normal or split hand
+    * @param card What gets added to a player or even dealers hand.
+     * @param isSplit Determines if card should be added to split hand if so it would be true.
+    * @see Hand#addCard(String, boolean)
+    * @return ...
+    */
+    public void addCard(String card, boolean isSplit) { cards.get(isSplit ? "split" : "normal").add(card);}
 
+
+    /**
+     * ( Feature will be added soon! )
+     * @see ...
+     * @return Nothing
+     */
+    public void split() { didSplit = true;}
+
+    /**
+     * ( Feature will be added soon!)
+     * @see ...
+     * @return Nothing
+     */
+    public void doubleDown() { doubleDown = true;}
+
+    /**
+     * Clears a player's hand, boolean, integer values for the next round.
+     * @see Dealer#dispense(LinkedHashMap)
+     * @return Nothing
+     */
+    public void clear() {
+        didSplit = false;
+        busted = false;
+        blackjack = false;
+        doubleDown = false;
+        bet=0;
+        normalCardSum = 0;
+        splitCardSum = 0;
+        cards.get("normal").clear();
+        cards.get("split").clear();
+    }
+    //==============================================================================
 
 }
 
