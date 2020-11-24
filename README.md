@@ -8,6 +8,4 @@ The only difference code wise takes place with classes in blackjack.utils.genera
 Checkout Generator and CardGenerator classes to see differences: <br /> 
 [blackjack.utils.generators v1.0](https://github.com/DariusRain/Java-Blackjack/blob/v1.0/src/blackjack/utils/generators) <br />
 [blackjack.utils.generators v1.1](https://github.com/DariusRain/Java-Blackjack/blob/v1.1/src/blackjack/utils/generators) <br />
- 
 
-     
